@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bulletin Scolaire Annuel</title>
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            margin: 20px;
+            font-size: 12px;
+            color: #2d3748;
+            background-color: #ffffff;
+        }
+        .en-tete {
+            text-align: center;
+            border-bottom: 3px solid #2b6cb0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .en-tete h1 {
+            margin: 0;
+            color: #2b6cb0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        .en-tete h2 {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #4a5568;
+        }
+        .en-tete p {
+            margin: 2px;
+            font-size: 11px;
+            color: #718096;
+        }
+        .infos-eleve {
+            width: 100%;
+            margin-bottom: 25px;
+            border-collapse: collapse;
+        }
+        .infos-eleve td {
+            padding: 6px 10px;
+            border: 1px solid #cbd5e0;
+        }
+        .libelle-info {
+            font-weight: bold;
+            background-color: #f7fafc;
+            width: 22%;
+            color: #2d3748;
+        }
+        .table-notes {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .table-notes th, .table-notes td {
+            border: 1px solid #a0aec0;
+            padding: 8px;
+            text-align: center;
+        }
+        .table-notes th {
+            background-color: #2b6cb0;
+            color: white;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+        .table-notes td.matiere-nom {
+            text-align: left;
+            font-weight: bold;
+        }
+        .boite-resume {
+            width: 100%;
+            margin-top: 20px;
+            border: 2px solid #2b6cb0;
+            border-collapse: collapse;
+            background-color: #ebf8ff;
+        }
+        .boite-resume td {
+            padding: 12px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #2b6cb0;
+        }
+        .pied-page {
+            margin-top: 50px;
+            width: 100%;
+            display: table;
+        }
+        .signature {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+        }
+        .espace-signature {
+            height: 70px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="en-tete">
+    <p>REPUBLIQUE DU TCHAD</p>
+    <p>Ministère de l'Éducation Nationale et de la Promotion Civique</p>
+    <h2>ÉTABLISSEMENT SCOLAIRE EXCELLENCE</h2>
+    <h1>BULLETIN DE NOTES ANNUEL</h1>
+</div>
+
+<table class="infos-eleve">
+    <tr>
+        <td class="libelle-info">Matricule :</td>
+        <td th:text="${eleve.matricule}">ELV-123456</td>
+        <td class="libelle-info">Année Scolaire :</td>
+        <td th:text="${anneeScolaire.libelle}">2025-2026</td>
+    </tr>
+    <tr>
+        <td class="libelle-info">Nom & Prénom :</td>
+        <td th:text="${eleve.nom + ' ' + eleve.prenom}">KHALIL Mahamat</td>
+        <td class="libelle-info">Classe :</td>
+        <td th:text="${classe.nom}">Terminale S</td>
+    </tr>
+    <tr>
+        <td class="libelle-info">Date de Naissance :</td>
+        <td th:text="${eleve.dateNaissance}">15/05/2005</td>
+        <td class="libelle-info">Lieu de Naissance :</td>
+        <td th:text="${eleve.lieuNaissance}">N'Djamena</td>
+    </tr>
+</table>
+
+<table class="table-notes">
+    <thead>
+    <tr>
+        <th>Matière</th>
+        <th>Coefficient</th>
+        <th>Moyenne / 20</th>
+        <th>Appréciation / Remarque</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${moyennesMatieres}">
+        <td class="matiere-nom" th:text="${m.intituleMatiere}">Mathématiques</td>
+        <td th:text="${m.coefficient}">5.0</td>
+        <td th:text="${m.moyenne != null ? m.moyenne : 'N/A'}">15.50</td>
+        <td th:text="${m.remarque != null ? m.remarque : 'Très Bien'}">Très Bien</td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="boite-resume">
+    <tr>
+        <td>MOYENNE GENERALE : <span th:text="${moyenneGenerale.moyenneGenerale != null ? moyenneGenerale.moyenneGenerale + ' / 20' : 'N/A'}">15.20 / 20</span></td>
+        <td style="text-align: right;">DECISION : <span th:text="${moyenneGenerale.decision}">ADMIS EN CLASSE SUPERIEURE</span></td>
+    </tr>
+</table>
+
+<div class="pied-page">
+    <div class="signature">
+        <p>Fait à N'Djamena, le <span th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy')}">21/10/2026</span></p>
+        <p><strong>Le Chef d'Établissement</strong></p>
+        <div class="espace-signature"></div>
+    </div>
+</div>
+
+</body>
+</html>
