@@ -1,6 +1,7 @@
 package com.khalilmht.khalil.ui.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.khalilmht.khalil.ui.model.NoteDto;
@@ -23,6 +24,7 @@ public class NoteApiService {
         this.httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public List<NoteDto> recupererToutesLesNotes() {
@@ -38,7 +40,7 @@ public class NoteApiService {
                 return objectMapper.readValue(response.body(), new TypeReference<List<NoteDto>>() {});
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Erreur GET Notes : " + e.getMessage());
         }
         return Collections.emptyList();
     }
@@ -59,7 +61,7 @@ public class NoteApiService {
                 return response.body();
             }
         } catch (Exception e) {
-            return "Erreur de connexion : " + e.getMessage();
+            return "Erreur connexion : " + e.getMessage();
         }
     }
 }

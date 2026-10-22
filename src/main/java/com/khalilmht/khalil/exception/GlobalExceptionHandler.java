@@ -1,6 +1,5 @@
 package com.khalilmht.khalil.exception;
 
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +55,9 @@ public class GlobalExceptionHandler {
     // Gestion globale de toutes les autres exceptions non prévues (500)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, HttpServletRequest request) {
+        // Optionnel : afficher la trace dans la console du serveur pour debug
+        ex.printStackTrace();
+
         ErrorResponse error = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),

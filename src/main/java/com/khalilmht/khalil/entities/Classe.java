@@ -1,6 +1,6 @@
 package com.khalilmht.khalil.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Classe {
 
     @Id
@@ -25,6 +26,7 @@ public class Classe {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "niveau_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Niveau niveau; // Liaison vers le niveau scolaire (ex: Sixième, Terminale)
 
     @Column(name = "capacite_maximale", nullable = false)
